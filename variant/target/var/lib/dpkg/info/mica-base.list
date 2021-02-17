@@ -1,0 +1,14 @@
+/etc
+/etc/init.d
+/etc/init.d/mountkernfs
+/etc/init.d/networking
+/etc/init.d/rcS
+/usr/bin
+/usr/bin/mesg
+/usr/share
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/sh.1.gz.tmp
+/lib
+/lib/init
+/lib/init/vars.sh

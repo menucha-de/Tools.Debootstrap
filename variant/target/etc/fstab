@@ -1,0 +1,8 @@
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+proc     /proc              proc     nodev,noexec,nosuid 0 0
+sysfs    /sys               sysfs    nodev,noexec,nosuid 0 0
+pstore   /sys/fs/pstore     pstore   defaults            0 0
+configfs /sys/kernel/config configfs defaults            0 0
+tmpfs    /run               tmpfs    defaults            0 0
+tmpfs    /tmp               tmpfs    mode=1777           0 0
+tmpfs    /var/log           tmpfs    mode=1777           0 0

@@ -1,0 +1,37 @@
+#!/bin/ash
+### BEGIN INIT INFO
+# Provides:          httpd
+# Required-Start:    networking
+# Required-Stop:
+# Default-Start:     2
+# Default-Stop:      0 6
+# Short-Description: Start nchttpd.
+### END INIT INFO
+
+NAME=httpd
+DAEMON=/usr/bin/nc
+PID=/run/"$NAME".pid
+ARGS="-ll -p 80 -e /usr/bin/httpd.sh"
+
+case "$1" in
+        start)
+                echo -n "Starting $NAME: "
+                start-stop-daemon -S -m -p $PID -x $DAEMON -b -- $ARGS
+                ;;
+        stop)
+                echo -n "Stopping $NAME: "
+                start-stop-daemon -K -p $PID
+                ;;
+        restart)
+                echo -n "Stopping $NAME: "
+                start-stop-daemon -K -p $PID
+                sleep 1
+                start-stop-daemon -S -m -p $PID -x $DAEMON -b -- $ARGS
+                ;;
+        *)
+                echo "Usage: $NAME {start|stop|restart}" >&2
+exit 1
+                ;;
+esac
+
+exit 0

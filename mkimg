@@ -1,0 +1,77 @@
+#!/bin/bash
+
+set -e
+set -x
+
+NAME="debian_$DIST"
+PACKAGES="busybox dropbear-scp"
+EXCLUDE="util-linux,fdisk,libfdisk1,bind9-host,libgeoip1,libgssapi-krb5-2,libk5crypto3,libkrb5-3,libxml2"
+
+case "$DIST" in
+  stretch)
+    EXCLUDE="$EXCLUDE,libbind9-140,libdns162,libicu57,libisc160,libisccc140,libisccfg140,liblwres141,libcomerr2"
+    ;;
+  buster)
+    EXCLUDE="$EXCLUDE,libbind9-161,libdns1104,libicu63,libisc1100,libisccc161,libisccfg163,liblwres161,libcom-err2,libfstrm0,libjson-c3,liblmdb0,libprotobuf-c1"
+    ;;
+esac
+
+export BUILD=.
+
+env
+
+if [ -f pre ]; then
+  echo preparing app
+  ./pre
+fi
+
+export LANG=C
+export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_NONINTERACTIVE_SEEN=true
+
+export TARGET=target
+
+if [ -d "$TARGET" ]; then
+  chown root.root -R "$TARGET"
+else
+  mkdir "$TARGET"
+fi
+
+apt-get -q update
+apt-get -q -oAPT::Get::Assume-Yes=true -oDpkg::Options::="--force-confold" install wget debootstrap qemu-user-static patch
+
+mkdir -p "$TARGET/usr/bin"
+cp /usr/bin/qemu-arm-static "$TARGET/usr/bin"
+if debootstrap --no-resolve-deps --arch=$ARCH --exclude="$EXCLUDE" --variant=minbase $DIST $TARGET "$MIRROR" ./script; then
+  cat $TARGET/var/log/bootstrap.log
+else
+  cat $TARGET/debootstrap/debootstrap.log
+fi
+
+if [ -f post ]; then
+  echo customizing app
+  ./post
+fi
+
+rm -rf "$TARGET/usr/bin/qemu-arm-static" $TARGET/var/log/* $TARGET/var/lib/apt/lists/*
+
+
+cat > "$TARGET/META/about.json" <<EOFF
+{
+  "interface_version": "2.0.0",
+  "version": "$VERSION",
+  "container": "$NAME",
+  "support": "$SUPPORT",
+  "maintainer": "$MAINTAINER",
+  "build_date": "$(date -u)"
+}
+EOFF
+cat "$TARGET/META/about.json"
+
+tar cfz "app.tar.gz" -C "$TARGET" .
+rm -rf "$TARGET"
+
+if [ -f "app.tar.gz" ]; then
+  mv app.tar.gz ${NAME}_${VERSION}.tar.gz
+  echo '::set-output name=IMAGE::'${NAME}_${VERSION}.tar.gz
+fi

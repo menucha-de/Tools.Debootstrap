@@ -1,0 +1,4 @@
+#!/bin/sh
+
+invoke-rc.d httpd stop
+update-rc.d httpd remove

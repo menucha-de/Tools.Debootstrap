@@ -1,0 +1,9 @@
+path-include=/usr/share/nano/default.nanorc
+path-include=/usr/share/perl5/Debconf/Element/Noninteractive*
+path-include=/usr/share/perl5/Debconf/FrontEnd/Noninteractive.pm
+path-include=/usr/share/tabset/*
+path-include=/lib/systemd/systemd-udevd
+path-include=/lib/terminfo/x
+path-include=/lib/terminfo/x/xterm*
+path-include=/lib/udev/rules.d
+path-include=/lib/udev/rules.d/50-udev-default.rules

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+set -x
+
+cp -a variant/{pre.sh,post.sh,target} .
+cp -a variant/$DIST/* .

@@ -1,0 +1,4 @@
+#!/bin/ash
+
+run-parts -a stop --reverse /etc/rc2.d
+run-parts -a stop --reverse /etc/rcS.d

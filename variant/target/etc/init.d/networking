@@ -1,0 +1,32 @@
+#!/bin/ash
+### BEGIN INIT INFO
+# Provides:          networking
+# Required-Start:    mountkernfs $local_fs
+# Required-Stop:     $local_fs
+# Default-Start:     S
+# Default-Stop:      0 6
+# Short-Description: Raise network interfaces.
+### END INIT INFO
+
+IF=$(grep fd968d76d4320001 /proc/net/if_inet6 || grep fd968d76d4320000 /proc/net/if_inet6)
+SERIAL=$((0x${IF:16:4}${IF:20:4}${IF:24:4}))
+LINKLOCAL=$(IFLL=$(grep fe80000000000000 /proc/net/if_inet6); echo -e "${IFLL:0:4}:${IFLL:4:4}:${IFLL:8:4}:${IFLL:12:4}:${IFLL:16:4}:${IFLL:20:4}:${IFLL:24:4}:${IFLL:28:4}")
+HOSTNAME=$(hostname -s)
+MICA_HOSTNAME=$(echo $HOSTNAME | cut -d'-' -f 2-)
+
+# LL address must be published via mDNS (requested)
+# avahi only publishes one IPv6 per interface, see: https://lists.freedesktop.org/archives/avahi/2009-May/001646.html
+echo -e "$LINKLOCAL\t${HOSTNAME}.local" > /etc/avahi/hosts
+
+cat > /etc/profile.d/mica.sh <<EOF
+export MICA_SERIAL=$SERIAL
+export MICA_VARIANT=$VARIANT
+export MICA_VERSION=$VERSION
+export MICA_REVISION=$REVISION
+export MICA_NAME=$MICA_HOSTNAME
+export HOSTNAME=$HOSTNAME
+EOF
+
+if [ -f /etc/rc2.d/S??dropbear ] && [ ! -f /etc/dropbear/dropbear_rsa_host_key ]; then
+  dropbearkey -t rsa -f /etc/dropbear/dropbear_rsa_host_key -s 1024
+fi

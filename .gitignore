@@ -1,0 +1,6 @@
+*.tar
+/target
+/build.properties
+/lib
+/.metadata
+/.settings

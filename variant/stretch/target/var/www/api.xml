@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="default.xsl" ?>
+<document>
+  <chapter>
+    <title>Overview</title>
+    <text>The Debian Stretch Container based on Debian/GNU Linux 9</text>
+    <text>It is a lightweight development container providing apt package management</text>
+  </chapter>
+  <chapter>
+    <title>Remote Access</title>
+    <text>You can access the container from Windows™ via putty</text>
+    <code>putty root@containername-micaname</code>
+    <text>You can access the container from Linux™ via ssh client</text>
+    <code>ssh root@containername-micaname.local</code>
+    <text>You should change the default password (root)</text>
+  </chapter>
+  <chapter>
+    <title>APT Settings</title>
+    <text>By default APT is able to use <i>apt.local</i> as proxy defined in</text>
+    <code>/etc/apt/apt.conf.d/99proxy</code>
+    <text>Your local APT proxy should publish this name via mDNS</text>
+    <text>To enable the proxy, you have to uncomment the APT proxy entry in this file with the default editor (nano)</text>
+    <text>By default APT is using httpredir.debian.org as Debian™ mirror defined in</text>
+    <code>/etc/apt/sources.list</code>
+    <text>Change this file, if you want to use another mirror</text>
+  </chapter>
+  <chapter>
+    <title>Software Installation</title>
+    <text>Before you are able to install software you have to fetch the current packages lists from Debian™ mirror with</text>
+    <code>apt update</code>
+    <text>Repeat this step periodically to ensure that you have the latest packages lists</text>
+    <text>You can install each package that is available in the Debian™ distribution</text>
+    <text>Maybe you want to install openssl-client to use sftp for secure file transfer</text>
+    <code>apt install openssh-client</code>
+    <text>Be aware that not every package makes sense on this device</text>
+  </chapter>
+  <chapter>
+    <title>Customization</title>
+    <text>You will find the container icons under</text>
+    <code>/META/web_icons</code>
+    <text>You have to modify the container details</text>
+    <code>/META/about.json</code>
+    <text>The default web pages are under</text>
+    <code>/var/www</code>
+    <text>By default this container only includes a simple script to provide some base files</text>
+    <code>/usr/bin/httpd.sh</code>
+    <text>Please install a tiny web server to provide your own site i.e.</text>
+    <code>apt install lighttpd</code>
+    <text>You should clean the APT cache and removes the packages lists after preparation</text>
+    <code>apt clean</code>
+    <code>rm /var/lib/apt/lists/httpredir.debian.org_debian_dists_stretch_*</code>
+  </chapter>
+</document>

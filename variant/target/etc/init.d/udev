@@ -1,0 +1,44 @@
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          udev
+# Required-Start:    mountkernfs
+# Required-Stop:
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: Start systemd-udevd, populate /dev and load drivers.
+### END INIT INFO
+
+PATH="/sbin:/bin"
+NAME="systemd-udevd"
+DAEMON="/lib/systemd/systemd-udevd"
+DESC="the hotplug events dispatcher"
+
+[ -x $DAEMON ] || exit 0
+
+if [ -e /etc/udev/udev.conf ]; then
+  . /etc/udev/udev.conf
+fi
+
+. /lib/lsb/init-functions
+
+case "$1" in
+  start)
+    log_daemon_msg "Starting $DESC" "$NAME"
+    if $DAEMON --daemon; then
+      log_end_msg $?
+    fi
+    udevadm trigger --action=add -b /sys/bus/usb/devices/usb1
+    ;;
+  stop)
+    log_daemon_msg "Stopping $DESC" "$NAME"
+    if start-stop-daemon --stop --name $NAME --user root --quiet --oknodo --retry 5; then
+      log_end_msg $?
+    fi
+    ;;
+  *)
+    echo "Usage: /etc/init.d/udev {start|stop}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0
