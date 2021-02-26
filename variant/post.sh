@@ -2,9 +2,9 @@
 
 . /usr/share/debootstrap/functions
 
+echo "deb $MIRROR-security stretch/updates main" >> "$TARGET/etc/apt/sources.list"
 cat > "$TARGET/etc/apt/sources.list.d/apt.list" <<EOF
 deb $MIRROR stretch main
-deb $MIRROR-security stretch/updates main
 deb [trusted=yes] $APT stretch main
 EOF
 if [[ "${DIST##*-}" == "updates" ]]; then
