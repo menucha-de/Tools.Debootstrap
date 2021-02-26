@@ -2,7 +2,7 @@
 
 . /usr/share/debootstrap/functions
 
-echo "deb $MIRROR-security stretch/updates main" >> "$TARGET/etc/apt/sources.list"
+echo "deb $MIRROR-security stretch/updates main" >> "$TARGET/etc/apt/sources.list.d/security.list"
 cat > "$TARGET/etc/apt/sources.list.d/apt.list" <<EOF
 deb $MIRROR stretch main
 deb [trusted=yes] $APT stretch main
