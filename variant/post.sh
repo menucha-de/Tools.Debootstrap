@@ -17,20 +17,12 @@ if [[ "${DIST##*-}" == "updates" ]]; then
   echo "deb [trusted=yes] $APT stretch-updates main" >> "$TARGET/etc/apt/sources.list.d/apt.list"
 fi
 
-#cat > "$TARGET/etc/apt/preferences" <<EOF
-#Package: *
-#Pin: origin ""
-#Pin-Priority: 1001
-#EOF
-
 cat "$TARGET/etc/apt/sources.list.d/apt.list"
-#cat "$TARGET/etc/apt/preferences"
 
 in_target_nofail busybox --install -s
 rm -vf $TARGET/usr/bin/readlink
 
 in_target_nofail apt-get -oAcquire::https::Verify-Peer=false update
-in_target_nofail apt-get -oAcquire::https::Verify-Peer=false -y dist-upgrade
 in_target_nofail apt-get -oAcquire::https::Verify-Peer=false -y install $PACKAGES
 
 in_target_nofail update-rc.d mountkernfs defaults
