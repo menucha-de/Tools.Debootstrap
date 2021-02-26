@@ -16,7 +16,7 @@ case $ARCH in
 esac
 
 work_out_debs () {
-	base="apt avahi-daemon busybox dropbear-run inetutils-ping libnss-mdns libnss-myhostname libpam-runtime llmnrd net-tools nano ncurses-base procps udev insserv"
+	base="apt apt-transport-https avahi-daemon busybox dropbear-run inetutils-ping libnss-mdns libnss-myhostname libpam-runtime llmnrd net-tools nano ncurses-base procps udev insserv"
 	required="bash grep mount mawk sed base-passwd coreutils diffutils libc-bin"
 
 	if doing_variant - || doing_variant fakechroot; then
