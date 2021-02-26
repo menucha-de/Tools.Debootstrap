@@ -21,6 +21,9 @@ Pin: origin ""
 Pin-Priority: 1001
 EOF
 
+cat "$TARGET/etc/apt/sources.list.d/apt.list"
+cat "$TARGET/etc/apt/preferences"
+
 in_target_nofail busybox --install -s
 rm -vf $TARGET/usr/bin/readlink
 
