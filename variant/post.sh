@@ -7,8 +7,6 @@ env
 
 . /usr/share/debootstrap/functions
 
-echo "deb $MIRROR-security stretch/updates main" > "$TARGET/etc/apt/sources.list.d/security.list"
-
 cat > "$TARGET/etc/apt/sources.list.d/local.list" <<EOF
 deb $MIRROR stretch main
 deb [trusted=yes] $APT stretch main
@@ -16,8 +14,6 @@ EOF
 if [[ "${DIST##*-}" == "updates" ]]; then
   echo "deb [trusted=yes] $APT stretch-updates main" >> "$TARGET/etc/apt/sources.list.d/apt.list"
 fi
-
-cat "$TARGET/etc/apt/sources.list.d/apt.list"
 
 in_target_nofail busybox --install -s
 rm -vf $TARGET/usr/bin/readlink
