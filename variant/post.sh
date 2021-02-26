@@ -24,7 +24,7 @@ fi
 #EOF
 
 cat "$TARGET/etc/apt/sources.list.d/apt.list"
-cat "$TARGET/etc/apt/preferences"
+#cat "$TARGET/etc/apt/preferences"
 
 in_target_nofail busybox --install -s
 rm -vf $TARGET/usr/bin/readlink
