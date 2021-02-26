@@ -1,5 +1,10 @@
 #!/bin/bash
 
+set -x
+set -e
+
+env
+
 . /usr/share/debootstrap/functions
 
 echo "deb $MIRROR-security stretch/updates main" > "$TARGET/etc/apt/sources.list.d/security.list"
