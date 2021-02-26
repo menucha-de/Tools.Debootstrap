@@ -20,9 +20,9 @@ in_target_nofail busybox --install -s
 rm -vf $TARGET/usr/bin/readlink
 
 in_target_nofail apt-get --reinstall install debconf
-in_target_nofail apt-get -q update
-in_target_nofail apt-get -q -oAPT::Get::Assume-Yes=true -oDpkg::Options::="--force-confold" dist-upgrade
-in_target_nofail apt-get -q -oAPT::Get::Assume-Yes=true -oDpkg::Options::="--force-confold" --reinstall install $PACKAGES
+in_target_nofail apt-get update
+in_target_nofail apt-get -oAPT::Get::Assume-Yes=true -oDpkg::Options::="--force-confold" dist-upgrade
+in_target_nofail apt-get -oAPT::Get::Assume-Yes=true -oDpkg::Options::="--force-confold" --reinstall install $PACKAGES
 
 in_target_nofail update-rc.d mountkernfs defaults
 in_target_nofail update-rc.d networking defaults
