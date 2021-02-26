@@ -4,7 +4,6 @@ set -e
 set -x
 
 NAME="debian_$DIST"
-PACKAGES="busybox dropbear-scp"
 EXCLUDE="util-linux,fdisk,libfdisk1,bind9-host,libgeoip1,libxml2"
 
 case "$DIST" in
@@ -16,9 +15,8 @@ case "$DIST" in
     ;;
 esac
 
+export PACKAGES="busybox dropbear-scp"
 export BUILD=.
-
-env
 
 if [ -f pre ]; then
   echo preparing app
