@@ -5,14 +5,14 @@ set -x
 
 NAME="debian_$DIST"
 PACKAGES="busybox dropbear-scp"
-EXCLUDE="util-linux,fdisk,libfdisk1,bind9-host,libgeoip1,libgssapi-krb5-2,libk5crypto3,libkrb5-3,libxml2"
+EXCLUDE="util-linux,fdisk,libfdisk1,bind9-host,libgeoip1,libxml2"
 
 case "$DIST" in
   stretch)
     EXCLUDE="$EXCLUDE,libbind9-140,libdns162,libicu57,libisc160,libisccc140,libisccfg140,liblwres141"
     ;;
   buster)
-    EXCLUDE="$EXCLUDE,libbind9-161,libdns1104,libicu63,libisc1100,libisccc161,libisccfg163,liblwres161,libcom-err2,libfstrm0,libjson-c3,liblmdb0,libprotobuf-c1"
+    EXCLUDE="$EXCLUDE,libgssapi-krb5-2,libk5crypto3,libkrb5-3,libbind9-161,libdns1104,libicu63,libisc1100,libisccc161,libisccfg163,liblwres161,libcom-err2,libfstrm0,libjson-c3,liblmdb0,libprotobuf-c1"
     ;;
 esac
 
