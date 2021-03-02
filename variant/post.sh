@@ -21,6 +21,9 @@ rm -vf $TARGET/usr/bin/readlink
 in_target_nofail apt-get -oAcquire::https::Verify-Peer=false update
 in_target_nofail apt-get -oAcquire::https::Verify-Peer=false -y install $PACKAGES
 
+in_target_nofail busybox --install -s
+rm -vf $TARGET/usr/bin/readlink
+
 in_target_nofail update-rc.d mountkernfs defaults
 in_target_nofail update-rc.d networking defaults
 in_target_nofail update-rc.d httpd defaults
