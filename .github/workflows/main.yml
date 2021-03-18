@@ -3,6 +3,10 @@ name: Build debian image
 on:
   workflow_dispatch:
     inputs:
+      dist:
+        description: 'Distribution'
+        default: 'stretch'
+        required: true
       version:
         description: 'Version'
         required: true
@@ -22,10 +26,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-      - run: docker run --workdir /github/workspace --rm --privileged -e ARCH -e DIST -e APT -e MIRROR -e VERSION -e MAINTAINER -e SUPPORT --entrypoint bash -v "$GITHUB_WORKSPACE":"/github/workspace" debian:stretch-slim "-c" "./mkimg"
+      - run: docker run --workdir /github/workspace --rm --privileged -e ARCH -e DIST -e APT -e MIRROR -e VERSION -e MAINTAINER -e SUPPORT --entrypoint bash -v "$GITHUB_WORKSPACE":"/github/workspace" debian:${{ github.event.inputs.dist }}-slim "-c" "./mkimg"
         env:
           ARCH: 'armhf'
-          DIST: 'stretch'
+          DIST: '${{ github.event.inputs.dist }}'
           APT: 'https://peramic.github.io/debian'
           MIRROR: 'http://httpredir.debian.org/debian'
           VERSION: ${{ github.event.inputs.version }}
