@@ -43,7 +43,19 @@ cp /usr/bin/qemu-arm-static "$TARGET/usr/bin"
 if debootstrap --no-resolve-deps --arch=$ARCH --exclude="$EXCLUDE" --variant=minbase $DIST $TARGET "$MIRROR" ./script; then
   cat $TARGET/var/log/bootstrap.log
 else
+  sleep 3
+  cat $TARGET/var/lib/dpkg/status
+  sleep 3
+  echo +++
+  ls -al $TARGET/usr/bin/sh
+  sleep 3
+  echo +++
+  echo $PATH
+  sleep 3
+  echo +++
   cat $TARGET/debootstrap/debootstrap.log
+  sleep 3
+  echo +++
 fi
 
 if [ -f post ]; then
