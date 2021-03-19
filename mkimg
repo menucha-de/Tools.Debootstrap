@@ -47,7 +47,7 @@ else
   cat $TARGET/var/lib/dpkg/status
   sleep 3
   echo +++
-  ls -al $TARGET/usr/bin/sh
+  ls -al $TARGET/usr/bin/sh || true
   sleep 3
   echo +++
   echo $PATH
